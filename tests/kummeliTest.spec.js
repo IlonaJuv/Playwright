@@ -11,9 +11,6 @@ test('Find fifth episode of third season', async ({ page }) => {
   const episodeName = await episodeElement.locator('div > div:nth-child(2) > h3 > a').innerText();
   const episodeDate = await episodeElement.locator('div > div:nth-child(2) > div > div > span:nth-child(2)').innerText();
 
-  console.log(`Episode name: ${episodeName}`);
-  console.log(`Episode date: ${episodeDate}`);
-
   expect(episodeName).toContain('5. Kummeli');
   expect(episodeDate).toContain('ti 8.3.2016');
 });
