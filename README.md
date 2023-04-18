@@ -19,6 +19,8 @@ npx playwright test
 npx playwright show-report
 ```
 
+5. Accessibility results can be found from artifacts-folder.
+
 ## Group 9
 
 - Adnan Avni
