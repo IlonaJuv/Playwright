@@ -1,14 +1,29 @@
 import { test, expect } from "@playwright/test";
+const AxeBuilder = require('@axe-core/playwright').default;
+import { createHtmlReport } from 'axe-html-reporter';
 
 test.describe("22:00 news program", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("https://areena.yle.fi/tv/opas");
+        try {
+              const results = await new AxeBuilder({ page }).analyze();
+
+              createHtmlReport({
+                results,
+                options: {
+                  reportFileName: 'NewsAndLogos.html'
+                }
+              })
+            } catch (e) {
+
+            }
   });
 
   test("has title", async ({ page }) => {
     await expect(page).toHaveTitle(
       "TV-opas | Ohjelmat tänään | Areena | yle.fi"
     );
+
   });
 
   test('has "Kymmenen uutiset" at 22.00', async ({ page }) => {
@@ -23,7 +38,6 @@ test.describe("22:00 news program", () => {
     expect(await elementHandle.innerText()).toContain('22.00');
   
     await elementHandle.screenshot({ path: 'screenshot.png' });
-  
   });
 
   test.describe("channel logos", () => {
@@ -55,6 +69,7 @@ test.describe("22:00 news program", () => {
     test("sub", async ({ page }) => {
       const sub = await page.$('div[aria-label="Sub"]');
       expect(sub).not.toBeNull();
+
     });
 
     test("TV5", async ({ page }) => {
@@ -70,6 +85,8 @@ test.describe("22:00 news program", () => {
     test("JIM", async ({ page }) => {
       const jim = await page.$('div[aria-label="JIM"]');
       expect(jim).not.toBeNull();
+
     });
   });
+
 });
