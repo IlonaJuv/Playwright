@@ -29,8 +29,8 @@ test.describe("22:00 news program", () => {
         'platform': 'Windows 10',
         'build': 'newsAndLogos Test',
         'name': 'newsAndLogos Test',
-        'user': process.env.LT_USERNAME,
-        'accessKey': process.env.LT_ACCESS_KEY,
+        'user': "harvala.perttu",
+        'accessKey': "fujaHL5WXU4uIOtFr3skb8HYnx3cDNS8widLpACY2SkRUj8yYK",
         'network': true,
         'video': true,
         'console': true,
@@ -42,6 +42,7 @@ test.describe("22:00 news program", () => {
       wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`
     })
     page = await browser.newPage();
+    await page.goto("https://areena.yle.fi/tv/opas");
      //await page.getByText('Hyväksy Kaikki').click();
     await expect(page).toHaveTitle(
       "TV-opas | Ohjelmat tänään | Areena | yle.fi"
