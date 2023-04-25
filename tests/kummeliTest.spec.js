@@ -6,14 +6,14 @@ import { createHtmlReport } from 'axe-html-reporter';
 
 test('Find fifth episode of third season', async ({ page }) => {
   const capabilities = {
-    'browserName': 'pw-firefox', // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
+    'browserName': 'Chrome', // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
     'browserVersion': 'latest',
     'LT:Options': {
       'platform': 'Windows 10',
       'build': 'Kummeli Test',
       'name': 'Kummeli Test',
-      'user': "nameHere.",
-      'accessKey': "keyHere",
+      'user': process.env.LT_USERNAME,
+      'accessKey': process.env.LT_ACCESS_KEY,
       'network': true,
       'video': true,
       'console': true,
@@ -26,6 +26,8 @@ test('Find fifth episode of third season', async ({ page }) => {
   })
   page = await browser.newPage();
   await page.goto('https://areena.yle.fi/1-3339547');
+  
+  //await page.getByText('Hyväksy Kaikki').click();
 
   const seasonElement = await page.locator('li.DesktopDropdown_item__QxPNK:nth-child(3) button.AlternateButton_root__5TY0i');
   await seasonElement.click();
@@ -50,4 +52,4 @@ test('Find fifth episode of third season', async ({ page }) => {
 
     }
     await browser.close()
-},{timeout: 90000});
+},{timeout: 30000});

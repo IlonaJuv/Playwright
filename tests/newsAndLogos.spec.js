@@ -1,8 +1,9 @@
 import { test, expect } from "@playwright/test";
 const AxeBuilder = require('@axe-core/playwright').default;
 import { createHtmlReport } from 'axe-html-reporter';
-
+const { chromium } = require('playwright')
 test.describe("22:00 news program", () => {
+
   test.beforeEach(async ({ page }) => {
     await page.goto("https://areena.yle.fi/tv/opas");
         try {
@@ -20,10 +21,32 @@ test.describe("22:00 news program", () => {
   });
 
   test("has title", async ({ page }) => {
+
+    const capabilities = {
+      'browserName': 'Chrome', // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
+      'browserVersion': 'latest',
+      'LT:Options': {
+        'platform': 'Windows 10',
+        'build': 'newsAndLogos Test',
+        'name': 'newsAndLogos Test',
+        'user': process.env.LT_USERNAME,
+        'accessKey': process.env.LT_ACCESS_KEY,
+        'network': true,
+        'video': true,
+        'console': true,
+        'geoLocation': 'FI'
+      }
+    }
+  
+    const browser = await chromium.connect({
+      wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`
+    })
+    page = await browser.newPage();
+     //await page.getByText('Hyväksy Kaikki').click();
     await expect(page).toHaveTitle(
       "TV-opas | Ohjelmat tänään | Areena | yle.fi"
     );
-
+    await browser.close()
   });
 
   test('has "Kymmenen uutiset" at 22.00', async ({ page }) => {
