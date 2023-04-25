@@ -22,7 +22,22 @@ To run the tests, use the command:
 ```shell
 npx playwright test
 ```
-This will execute the tests in parallel across multiple browsers and platforms provided by LambdaTest. To inspect the test results use the command:
+This will execute the tests in parallel across multiple browsers and platforms provided by LambdaTest. 
+
+The tests often timeout when using lambdatest, especially when running all of the tests at the same time.
+So it is recommended to run them one by one by using the command:
+```shell
+npx playwright test testname.spec.js
+```
+Lambdatest sometimes has issues connecting to the website or the lambdatest services which can cause the tests to fail so you may have to run them multiple times to get them to pass.
+
+Sometimes the browser might want to check cookies and sometimes not. If it is trying to, you can see it from the video of the test in lambdatest automation builds or if you see that the testing gets stuck after entering the website and it tries to click something other than accept/cancel cookies.
+In this case uncomment this line:
+```shell
+await page.getByText('Hyväksy Kaikki').click();
+```
+
+To inspect the test results use the command:
 ```shell
 npx playwright show-report
 ```
